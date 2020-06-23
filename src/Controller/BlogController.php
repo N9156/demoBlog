@@ -17,7 +17,7 @@ class BlogController extends AbstractController
         ]);
     }
     /**
-     *  @Route("/", name="blog")
+     *  @Route("/", name="home")
      */
     public function home()
     {
@@ -27,4 +27,12 @@ class BlogController extends AbstractController
         ]);
     }
 
+    //show() : methode permettant de voir le detail d'un article
+    /**
+     * @Route("/blog/12",name="blog_show")
+     */
+    public function show()
+    {
+        return $this->render('blog/show.html.twig');
+    }
 }
