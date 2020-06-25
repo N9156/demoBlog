@@ -1,18 +1,32 @@
 {% extends "base.html.twig" %}
 {# on herite du template 'base.html.twig' #}
 
+
+
 {#  on appelle le block body du template 'base.html.twig' #}
 {% block body %}
 
     <h1 class="display-4 text-center my-4">Créer un nouvel article</h1>
-    <form method="post" action="" class="col-md-6 mx-auto">
+    {# 3autre methode de form#}
+    {{ form_start(formArticle, {'attr':{'class':'col-md-7 mx-auto'}}) }}
+        {{ form_row(formArticle.title ,{'attr':{'placeholder':"Saisir le titre de l'article"}}) }}
+        {{ form_row(formArticle.content, {'attr':{'placeholder':"Contenu de l'article","row": 15}}) }}
+        {{ form_row(formArticle.image, {'attr':{'placeholder':"Saisir l'URL de l'image..."}}) }}
+        <button type="submit" class="btn btn-info">Enregistrer</button>
+
+    {{ form_end(formArticle) }}
+
+    {# 2autre methode de form#}
+    {#{{ form(formArticle) }}#}
+    
+    {#<form method="post" action="" class="col-md-6 mx-auto">
         <div class="form-group">
           <label for="title">Titre</label>
           <input type="text" class="form-control" id="title" name="title">
         </div>
         <div class="form-group">
           <label for="content">Contenu de l'article</label>
-          <textarea class="form-control" id="content" rows="8"></textarea>
+          <textarea class="form-control" id="content" rows="8" name="content"></textarea>
         </div>
         <div class="form-group">
             <label for="image">Image</label>
@@ -20,6 +34,6 @@
           </div>
         
         <button type="submit" class="btn btn-dark">Enregistrer</button>
-      </form>
+      </form>#}
 
 {% endblock body %}
