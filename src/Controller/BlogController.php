@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use DateTime;
 use App\Entity\Article;
+use App\Form\ArticleType;
 use App\Repository\ArticleRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\Persistance\ManagerRegistry;
@@ -45,7 +46,10 @@ class BlogController extends AbstractController
      * @Route("/blog/new", name="blog_create")
      * @Route("/blog/{id}/edit",name="blog_edit")
      */
-    public function create(Article $article =null,Request $request, EntityManagerInterface $manager)//25 06 11:38 methode qui permet de supprimer inserer des données
+    ///bloc/new genere une insertion
+    //blog/edit pour modification
+    public function form(Article $article =null,Request $request, EntityManagerInterface $manager)//25 06 11:38 methode qui permet de supprimer inserer des données
+    //request stock les données saisies
     {
         //dump($request);
         /*if($request->request->count() > 0)
@@ -73,18 +77,25 @@ class BlogController extends AbstractController
         //$article =new Article;//17h
         /*$article->setTitle("Titre Titre prérempli")
                 ->setContent("Contenu prérempli");*/
-        if(!$article){
+        if(!$article){//si article est null
             $article=new Article;
         }
-        $form = $this->createFormBuilder($article)//this objet du controleur
+
+        /*$form = $this->createFormBuilder($article)//this objet du controleur
                      ->add('title')
                      ->add('content')
                      ->add('image')
-                     ->getForm();
-        $form->handleRequest($request);//methode qui envoie dans l'objet article les setters?handleRequest methode de l'objet form
+                     ->getForm();*///12 H 26 06 2020
+        $form =$this->createForm(ArticleType::class,$article);//12 H 26 06 2020
+        $form->handleRequest($request);//$request equivalent à $POST //methode qui envoie dans l'objet article les setters?handleRequest methode de l'objet form
         if($form->isSubmitted() && $form->isValid())
         {
-            $article->setCreatedAt(new \DateTime);
+            if(!$article->getId())
+            {
+                $article->setCreatedAt(new \DateTime);
+            }
+            
+
             $manager->persist($article);
             $manager->flush();
             dump($article);
@@ -94,10 +105,11 @@ class BlogController extends AbstractController
 
         }
         return $this->render('blog/create.html.twig',[
-            'formArticle' =>$form->createView()
+            'formArticle' =>$form->createView(),
+            'editMode' =>$article->getId() !== null
         ]);
         dump($article);
-    }
+    }//fin create  creation formulaire
 
     //show() : methode permettant de voir le detail d'un article
     //1

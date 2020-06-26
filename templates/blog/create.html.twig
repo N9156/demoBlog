@@ -6,19 +6,32 @@
 {#  on appelle le block body du template 'base.html.twig' #}
 {% block body %}
 
-    <h1 class="display-4 text-center my-4">Créer un nouvel article</h1>
+    <h1 class="display-4 text-center my-4">
+      {% if editMode %}
+      Modification de l'article
+      {% else %}
+      Créer un nouvel article
+      {% endif %} 
+    </h1>
     {# 3autre methode de form#}
     {{ form_start(formArticle, {'attr':{'class':'col-md-7 mx-auto'}}) }}
-        {{ form_row(formArticle.title ,{'attr':{'placeholder':"Saisir le titre de l'article"}}) }}
+        {{ form_row(formArticle.Title ,{'attr':{'placeholder':"Saisir le titre de l'article"}}) }}
         {{ form_row(formArticle.content, {'attr':{'placeholder':"Contenu de l'article","row": 15}}) }}
         {{ form_row(formArticle.image, {'attr':{'placeholder':"Saisir l'URL de l'image..."}}) }}
-        <button type="submit" class="btn btn-info">Enregistrer</button>
+        <button type="submit" class="btn btn-info">
+        {% if editMode %}
+            Enregister les modifications
+        {% else %}
+            Enregister
+        {% endif %} 
+        </button>
 
     {{ form_end(formArticle) }}
 
     {# 2autre methode de form#}
     {#{{ form(formArticle) }}#}
     
+    {# 1ere methode de form#}
     {#<form method="post" action="" class="col-md-6 mx-auto">
         <div class="form-group">
           <label for="title">Titre</label>
