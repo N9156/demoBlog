@@ -14,9 +14,10 @@
                 <img src="{{ data.image }}" class="card-img-top" alt="...">
                 <div class="card-body">
                     <h5 class="card-title">{{ data.Title }}</h5>
-                    <p class="card-text">{{ data.content|raw }}</p>
+                    <p class="card-text">{{ data.content|slice(0, 100) |raw }}...</p>
+                    {# slice #}
                     <hr>
-                    <p>Posté le {{ data.createdAt |date("d/m/Y") }} à {{ data.createdAt |date("H:i:s") }} </p>
+                    <p>Posté le {{ data.createdAt |date("d/m/Y") }} à {{ data.createdAt |date("H:i:s") }} dans la catégorie <strong>{{ data.category.title }}</strong> </p>
                     <p class="card-text">{{ "now" |date("d/m/Y") }}</p>
                     <a href="{{ path('blog_show' , {'id': data.id} ) }}" class="btn btn-dark">Voir le détail</a>
                     {# {{ interpole #}
