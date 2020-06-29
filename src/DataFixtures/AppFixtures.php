@@ -11,6 +11,7 @@ class AppFixtures extends Fixture
     {
         // $product = new Product();
         // $manager->persist($product);
+        //ce fichier peut etre supprimer
 
         $manager->flush();
     }

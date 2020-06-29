@@ -12,18 +12,28 @@
             <h5 class="card-title text-center">{{ article.title }}</h5>
             <p class="card-text text-center">{{ article.content|raw }} </p>  
             <hr>
-            <p class="font-italic text-right">Posté le {{ article.createdAt |date("d/m/Y") }} à {{ article.createdAt |date("H:i:s") }}</p>
-            <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore 
-                    magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo 
-                    consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. 
-                    Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. </p>
-            <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore 
-                magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo 
-                consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. 
-                Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. </p>
             
+            <span class="col-md-2 offset-md-4 font-italic text-right">Posté le {{ article.createdAt |date("d/m/Y") }} à {{ article.createdAt |date("H:i:s") }} </span>
+            <span class="col-md-2 offset-md-4 font-italic text-right">dans la catégorie <strong>{{ article.category.title }}</strong></span>
+            <hr>
+            <span class="col-md-2"><a href="{{ path('blog_edit',{'id': article.id}) }}"  class="text-left btn btn-warning">Modifier</a></span>
         </div>
+
+        <div class="col-md-12">
+        <h2 class="text-center mt-5">Derniers avis...</h2>
+        {% for comment in article.comments %}
+            <div class="row border rounded mb-2 bg-dark text-white">
+                <div class="col-md-2">
+                    <span>{{ comment.author }}</span>
+                    <small class="font-italic"> {{ comment.createdAt|date('d/m/Y à H:i:s') }}</small>
+                </div>
+                <div class="col-md-10">
+                    <p>{{ comment.content|raw }}</p>
+                </div>
+
+            </div>
+        {% endfor %}
         
     </div>
-    <span class="col-md-2"><a href="{{ path('blog_edit',{'id': article.id}) }}"  class="text-left btn btn-warning">Modifier</a></span>
-{% endblock body %}
+    
+{% endblock %}
