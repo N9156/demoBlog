@@ -1,14 +1,37 @@
 security:
+    # declaration de l'encodeur, on précise à symfony que nous allons encoder un parametre dans la classe/Entity User (password)
+    # on precise le type d'encodage(bcrypt)
+    encoders:
+        App\Entity\User:
+            algorithm: bcrypt
+
     # https://symfony.com/doc/current/security.html#where-do-users-come-from-user-providers
     providers:
         users_in_memory: { memory: null }
+        #on indique à symfony où sont stockées les données de l'utilisateur, en BDD (in_database), de quelle entité (App\Entity\User) et quelle propriété il va devoir controler (email)
+        in_database:
+            entity:
+                class: App\Entity\User
+                property: email
+    #firewalls : quelle partie su site nous allons protéger et par quel moyen ?
     firewalls:
         dev:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
             security: false
+        #main represente tout le contenu du site
         main:
             anonymous: lazy
-            provider: users_in_memory
+            provider: in_database
+
+            form_login:
+                login_path: security_login
+                check_path: security_login
+
+            #on indique la route permettant de se deconnecter
+            logout:
+                path: security_logout
+                target: blog
+                #une fois deconnecter cela redirige automatiquement vers la page des articles
 
             # activate different ways to authenticate
             # https://symfony.com/doc/current/security.html#firewalls-authentication

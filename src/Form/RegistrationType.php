@@ -6,6 +6,7 @@ use App\Entity\User;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 
 class RegistrationType extends AbstractType
 {
@@ -14,8 +15,9 @@ class RegistrationType extends AbstractType
         $builder
             ->add('email')
             ->add('username')
-            ->add('password')
-            ->add('confirm_password')// on ajoute un champ afin de confirmer le mdp, ce champ ne sera pas inserer en bdd
+            ->add('password', PasswordType::class)//on appelle la classe PasswordType afin d'avoir des champs du form de type "pwd" pour masquer les mdp à la saisie du formulaire
+            ->add('confirm_password',PasswordType::class)// on ajoute un champ afin de confirmer le mdp, ce champ ne sera pas inserer en bdd
+            
         ;
     }
 
