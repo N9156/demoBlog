@@ -6,6 +6,7 @@
 
         {% block stylesheets %}
 
+            <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
             <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
             <link rel="stylesheet" href="{{ asset('css/style.css') }}">
             
@@ -19,35 +20,62 @@
             </button>
 
             <div class="collapse navbar-collapse" id="navbarsExample04">
-                <ul class="navbar-nav mr-auto">
-                <li class="nav-item active">
-                    <a class="nav-link" href="{{ path('home') }}">Home</a>
-                </li>
-                <li class="nav-item active">
-                    <a class="nav-link" href="{{ path('blog') }}">Articles</a>
-                </li>
-                <li class="nav-item active">
-                    <a class="nav-link" href="{{ path('blog_create') }}">Créer un  article</a>
-                </li>
-                <li class="nav-item active">
-                    <a class="nav-link" href="{{ path('security_registration') }}">Créer votre compte</a>
-                </li>
-                <li class="nav-item active">
-                    <a class="nav-link" href="{{ path('security_login') }}">Connexion</a>
-                </li>
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" id="dropdown04" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Dropdown</a>
-                    <div class="dropdown-menu" aria-labelledby="dropdown04">
-                    <a class="dropdown-item" href="#">Action</a>
-                    <a class="dropdown-item" href="#">Another action</a>
-                    <a class="dropdown-item" href="#">Something else here</a>
-                    </div>
-                </li>
+                    <ul class="navbar-nav mr-auto">
+                    <li class="nav-item active">
+                        <a class="nav-link" href="{{ path('home') }}">Home</a>
+                    </li>
+                    <li class="nav-item active">
+                        <a class="nav-link" href="{{ path('blog') }}">Articles</a>
+                    </li>
+
+              
+
+                {# app.user permet de stocker les informations de l'internaute qui est connecté,c'est à dire les informations de la
+                session en cours #}
+                {# si app.user renvoie TRUE, cela veut dire que l'internaute est bien connecté, alors on entre dans le IF  #}
+                {# si l'internaute est connecté , on entre #}
+                {% if app.user %}
+
+                    <li class="nav-item active">
+                        <a class="nav-link" href="{{ path('blog_create') }}">Créer un  article</a>
+                    </li>
+
+                {% endif %} 
+
+                
+                
+                {# SI l'insternaute N'EST PAS connecté, on lui propose les liens 'Créer votre compte' et 'Identifiez-vous' #}
+                {% if not  app.user %}
+                    <li class="nav-item active">
+                        <a class="nav-link" href="{{ path('security_registration') }}">Créer votre compte</a>
+                    </li>
+                    <li class="nav-item active">
+                        <a class="nav-link" href="{{ path('security_login') }}">Connexion</a>
+                    </li>
+                {% endif %}
+                
+                {# Si l'utilisateur a un ROLE_ADMIN en BDD , on met dans le if donne acces au back office à l'administrateur #}
+                {% if is_granted('ROLE_ADMIN') %}
+
+                    <li class="nav-item active">
+                        <a class="nav-link" href="{{ path('admin') }}">BackOffice</a>
+                    </li>
+
+                {% endif %}
+
+                {% if app.user %}
+                    <li class="nav-item active">
+                        <a class="nav-link" href="{{ path('security_logout') }}">Déconnexion</a>
+                    </li>
+                {% endif %}
+
+                
                 </ul>
             </div>
         </nav>
 
-        {{ dump(app.user) }}
+        {# dump session #}
+        {#{{ dump(app.user) }} #}
         
         <section class="container mon-conteneur">
         {% block body %}

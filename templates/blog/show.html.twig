@@ -16,7 +16,14 @@
             <span class="col-md-2 offset-md-4 font-italic text-right">Posté le {{ article.createdAt |date("d/m/Y") }} à {{ article.createdAt |date("H:i:s") }} </span>
             <span class="col-md-2 offset-md-4 font-italic text-right">dans la catégorie <strong>{{ article.category.title }}</strong></span>
             <hr>
+
+            {#  si l'internaute est connecté, il peut modifier l'article #}
+            {% if app.user %}
+
             <span class="col-md-2"><a href="{{ path('blog_edit',{'id': article.id}) }}"  class="text-left btn btn-warning">Modifier</a></span>
+
+            {% endif %}
+
         </div>
 
         <div class="col-md-12">
